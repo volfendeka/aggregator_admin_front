@@ -12,6 +12,8 @@ import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
+import Feeds from "./views/Feeds";
+import Sources from "./views/Sources";
 
 export default [
   {
@@ -49,6 +51,16 @@ export default [
     path: "/tables",
     layout: DefaultLayout,
     component: Tables
+  },
+  {
+    path: "/feeds",
+    layout: DefaultLayout,
+    component: Feeds
+  },
+  {
+    path: "/sources",
+    layout: DefaultLayout,
+    component: Sources
   },
   {
     path: "/blog-posts",

@@ -1,11 +1,32 @@
 export default function() {
   return [
     {
-      title: "Blog Dashboard",
+      title: "Dashboard",
       to: "/blog-overview",
       htmlBefore: '<i class="material-icons">edit</i>',
       htmlAfter: ""
     },
+    {
+      title: "Feeds",
+      to: "/feeds",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      htmlAfter: ""
+    },
+
+    {
+      title: "Sources",
+      to: "/sources",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      htmlAfter: ""
+    },
+
+    {
+      title: "",
+      to: "/",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      htmlAfter: ""
+    },
+
     {
       title: "Blog Posts",
       htmlBefore: '<i class="material-icons">vertical_split</i>',
@@ -21,6 +42,7 @@ export default function() {
       htmlBefore: '<i class="material-icons">view_module</i>',
       to: "/components-overview",
     },
+
     {
       title: "Tables",
       htmlBefore: '<i class="material-icons">table_chart</i>',
@@ -36,5 +58,6 @@ export default function() {
       htmlBefore: '<i class="material-icons">error</i>',
       to: "/errors",
     }
+
   ];
 }
