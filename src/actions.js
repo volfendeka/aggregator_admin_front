@@ -15,6 +15,12 @@ import {
   REQUEST_COUNTRIES_PENDING,
   REQUEST_COUNTRIES_SUCCESS,
   REQUEST_COUNTRIES_FAILED,
+  REQUEST_SOURCE_TYPES_PENDING,
+  REQUEST_SOURCE_TYPES_SUCCESS,
+  REQUEST_SOURCE_TYPES_FAILED,
+  REQUEST_SOURCE_STATUSES_PENDING,
+  REQUEST_SOURCE_STATUSES_SUCCESS,
+  REQUEST_SOURCE_STATUSES_FAILED,
 
 } from './constants';
 import {baseUrl} from './configs/config';
@@ -42,7 +48,7 @@ export const requestSources = () => (dispatch) => {
 
 export const createSource = (data) => (dispatch) => {
   dispatch({type: CREATE_SOURCE_PENDING});
-  fetch(baseUrl + 'source/' + data.id, {
+  fetch(baseUrl + 'source', {
     method: "POST",
     headers: {
       'Accept': 'application/json',
@@ -76,4 +82,20 @@ export const requestCountries = () => (dispatch) => {
     .then(response=> response.json())
     .then(data => dispatch({type: REQUEST_COUNTRIES_SUCCESS, payload: data}))
     .catch(error => dispatch({type: REQUEST_COUNTRIES_FAILED, payload: error}));
+};
+
+export const requestSourceTypes = () => (dispatch) => {
+  dispatch({type: REQUEST_SOURCE_TYPES_PENDING});
+  fetch(baseUrl + 'source/type')
+    .then(response=> response.json())
+    .then(data => dispatch({type: REQUEST_SOURCE_TYPES_SUCCESS, payload: data}))
+    .catch(error => dispatch({type: REQUEST_SOURCE_TYPES_FAILED, payload: error}));
+};
+
+export const requestSourceStatuses = () => (dispatch) => {
+  dispatch({type: REQUEST_SOURCE_STATUSES_PENDING});
+  fetch(baseUrl + 'source/status')
+    .then(response=> response.json())
+    .then(data => dispatch({type: REQUEST_SOURCE_STATUSES_SUCCESS, payload: data}))
+    .catch(error => dispatch({type: REQUEST_SOURCE_STATUSES_FAILED, payload: error}));
 };

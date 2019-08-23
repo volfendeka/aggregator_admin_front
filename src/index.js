@@ -6,7 +6,7 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { searchRobots } from "./reducers/reducer";
 import { requestFeeds } from "./reducers/feed";
-import { requestSources } from "./reducers/source";
+import { requestSources, requestSourceTypes, requestSourceStatuses } from "./reducers/source";
 import { requestCountries } from "./reducers/country";
 
 import App from './App';
@@ -18,7 +18,9 @@ const rootReducer = combineReducers({
   searchRobots,
   requestFeeds,
   requestSources,
-  requestCountries
+  requestCountries,
+  requestSourceTypes,
+  requestSourceStatuses
 });
 
 const logger = createLogger();

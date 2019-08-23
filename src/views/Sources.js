@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Container, Row, Col, Card, CardHeader, CardBody, Form} from "shards-react";
+import {Container, Row, Col, Card, CardHeader, CardBody, Form, Button} from "shards-react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import PageTitle from "../components/common/PageTitle";
 import {requestSources, updateSource} from "../actions";
 import {connect} from "react-redux";
-import NewSourceForm from "../containers/NewSourceForm";
+import SourceForm from "../containers/SourceForm";
+import UpdateSourceModal from "../containers/UpdateSourceModal";
 
 
 
@@ -25,38 +26,13 @@ const mapDispatchToProps = (dispatch) => {
 
 class Sources extends Component{
 
-  renderEditable = cellInfo => {
-    const cellValue = this.props.sources[cellInfo.index][cellInfo.column.id];
-
-    return (
-      <input
-        placeholder="type here"
-        name="input"
-        type="text"
-        onChange={this.handleInputChange.bind(null, cellInfo)}
-        value={cellValue}
-      />
-    );
-  };
-
-  handleInputChange = (cellInfo, event) => {
-    let data = [...this.props.sources];
-    data[cellInfo.index][cellInfo.column.id] = event.target.value;
-
-    this.setState({ data });
-  };
-
-  handleSave = (row) => {
-    updateSource(row.original);
-  };
-  handleDelete = (row) =>{
-
+  handleEdit = (row) => {
+    //todo: modal editable form or render editable form instead of row
+    console.log('not implemented');
   };
 
   render(){
     const { sources } = this.props;
-
-    console.log(this.props.countries)
 
     return <Container fluid className="main-content-container px-4">
       {/* Page Header */}
@@ -64,10 +40,12 @@ class Sources extends Component{
         <PageTitle sm="4" title="All sources" subtitle="Sources" className="text-sm-left" />
       </Row>
 
-
         <Card small>
-          <NewSourceForm />
+          <SourceForm action="create"/>
         </Card>
+      <Card small>
+          <UpdateSourceModal/>
+      </Card>
 
       <Row>
         <Col>
@@ -88,18 +66,15 @@ class Sources extends Component{
                       {
                         Header: "Name",
                         accessor: "name",
-                        Cell: this.renderEditable
                       },
                       {
                         Header: "Base uri",
                         accessor: "baseUri",
-                        Cell: this.renderEditable
 
                       },
                       {
                         Header: "Rss uri",
                         accessor: "rssUri",
-                        Cell: this.renderEditable
                       },
                       {
                         Header: "Type",
@@ -116,10 +91,7 @@ class Sources extends Component{
                       {
                         Header: '',
                         Cell: row => (
-                          <div>
-                            <button className={"btn btn-success"} onClick={() => this.handleSave(row)}>Save</button>
-                            <button className={"btn btn-danger"} onClick={() => this.handleDelete(row)}>Delete</button>
-                          </div>
+                          <Button id="add" className={"form-control"} onClick={() => this.handleEdit(row)}>Edit</Button>
                         )
                       }
                     ]

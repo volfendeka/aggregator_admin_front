@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onRequestFeeds: () => dispatch(requestFeeds()),
     onRequestSources: () => dispatch(requestSources()),
-    onRequestCountries: () => dispatch(requestCountries())
+    onRequestCountries: () => dispatch(requestCountries()),
   }
 };
 
