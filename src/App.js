@@ -6,7 +6,9 @@ import routes from "./routes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
-import { requestFeeds, requestSources, requestCountries } from './actions';
+import "./assets/pro_styles.css";
+import {requestSources, requestCountries} from './actions/source';
+import {requestFeeds, startFeedRunner, stopFeedRunner} from './actions/feed';
 
 
 const mapStateToProps = (state) => {
@@ -19,18 +21,18 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRequestFeeds: () => dispatch(requestFeeds()),
+    onRequestFeeds: () => dispatch(requestFeeds(500)),
     onRequestSources: () => dispatch(requestSources()),
     onRequestCountries: () => dispatch(requestCountries()),
+    onStartFeedRunner: () => dispatch(startFeedRunner()),
+    onStopFeedRunner: () => dispatch(stopFeedRunner())
   }
 };
 
 class App extends Component{
 
   componentDidMount() {
-    this.props.onRequestFeeds();
-    this.props.onRequestSources();
-    this.props.onRequestCountries();
+
   }
 
   render() {
@@ -43,6 +45,7 @@ class App extends Component{
               path={route.path}
               exact={route.exact}
               render={(props => {
+                props = {...props, noNavbar: route.noNavbar, noSidebar: route.noSidebar, noFooter: route.noFooter }
                 return (
                   <route.layout {...props}>
                     <route.component {...props} />

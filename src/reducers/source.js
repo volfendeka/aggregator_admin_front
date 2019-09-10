@@ -14,6 +14,9 @@ import {
   REQUEST_SOURCE_STATUSES_PENDING,
   REQUEST_SOURCE_STATUSES_SUCCESS,
   REQUEST_SOURCE_STATUSES_FAILED,
+  REQUEST_SOURCE_STATS_PENDING,
+  REQUEST_SOURCE_STATS_SUCCESS,
+  REQUEST_SOURCE_STATS_FAILED,
 } from '../constants';
 
 const initialStateSources = {
@@ -64,6 +67,60 @@ export const requestSourceStatuses = (state=initialStateSourceStatuses, action={
     case REQUEST_SOURCE_STATUSES_SUCCESS:
       return Object.assign({}, state, { sourceStatuses: action.payload, isPending: false });
     case REQUEST_SOURCE_STATUSES_FAILED:
+      return Object.assign({}, state, { error: action.payload, isPending: false });
+    default:
+      return state;
+  }
+};
+
+const initialStateCreateSource = {
+  isPending: false,
+  createdSource: [],
+  error: [],
+};
+export const createSource = (state=initialStateCreateSource, action={}) => {
+  switch(action.type){
+    case CREATE_SOURCE_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case CREATE_SOURCE_SUCCESS:
+      return Object.assign({}, state, { creatdSource: action.payload, isPending: false });
+    case CREATE_SOURCE_FAILED:
+      return Object.assign({}, state, { error: action.payload, isPending: false });
+    default:
+      return state;
+  }
+};
+
+const initialStateUpdateSource = {
+  isPending: false,
+  updatedSource: [],
+  error: [],
+};
+export const updateSource = (state=initialStateUpdateSource, action={}) => {
+  switch(action.type){
+    case UPDATE_SOURCE_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case UPDATE_SOURCE_SUCCESS:
+      return Object.assign({}, state, { updatedSource: action.payload, isPending: false });
+    case UPDATE_SOURCE_FAILED:
+      return Object.assign({}, state, { error: action.payload, isPending: false });
+    default:
+      return state;
+  }
+};
+
+const initialStateSourceStats = {
+  isPending: false,
+  sourceStats: [],
+  error: [],
+};
+export const requestSourceStats = (state=initialStateSourceStats, action={}) => {
+  switch(action.type){
+    case REQUEST_SOURCE_STATS_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case REQUEST_SOURCE_STATS_SUCCESS:
+      return Object.assign({}, state, { sourceStats: action.payload, isPending: false });
+    case REQUEST_SOURCE_STATS_FAILED:
       return Object.assign({}, state, { error: action.payload, isPending: false });
     default:
       return state;

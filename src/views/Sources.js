@@ -1,12 +1,11 @@
 import React, {Component} from "react";
-import {Container, Row, Col, Card, CardHeader, CardBody, Form, Button} from "shards-react";
+import {Container, Row, Col, Card, CardHeader, CardBody, Button, Modal} from "shards-react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import PageTitle from "../components/common/PageTitle";
-import {requestSources, updateSource} from "../actions";
+import {requestCountries, requestSources} from "../actions/source";
 import {connect} from "react-redux";
 import SourceForm from "../containers/SourceForm";
-import UpdateSourceModal from "../containers/UpdateSourceModal";
 
 
 
@@ -20,32 +19,80 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRequestSources: () => dispatch(requestSources())
+    onRequestSources: () => dispatch(requestSources()),
+    onRequestCountries: () => dispatch(requestCountries()),
   }
 };
 
 class Sources extends Component{
 
-  handleEdit = (row) => {
-    //todo: modal editable form or render editable form instead of row
-    console.log('not implemented');
+  state = {
+    show: false,
+    sourceId: '',
+    name: '',
+    rssUri: '',
+    baseUri: '',
+    country: {id: ''},
+    sourceType: {id: ''},
+    sourceStatus: {id: ''},
+  };
+
+  componentWillMount() {
+    this.props.onRequestSources();
+    this.props.onRequestCountries();
+  }
+
+  showModal = (row) => {
+    let { id, name, baseUri, rssUri, country, sourceType, sourceStatus} = row.original;
+    this.setState({
+      show: true,
+      name: name,
+      baseUri: baseUri,
+      rssUri: rssUri,
+      country: country.id,
+      sourceStatus: sourceStatus.id,
+      sourceType: sourceType.id,
+      sourceId: id
+    });
+  };
+
+
+  hideModal = () => {
+    console.log(this.state);
+    this.setState({ show: false });
   };
 
   render(){
     const { sources } = this.props;
+    let title = "All sources: ";
+    title += sources ? sources.length : '';
 
     return <Container fluid className="main-content-container px-4">
-      {/* Page Header */}
       <Row noGutters className="page-header py-4">
-        <PageTitle sm="4" title="All sources" subtitle="Sources" className="text-sm-left" />
+        <PageTitle sm="4" title={title} subtitle="Sources" className="text-sm-left" />
       </Row>
 
         <Card small>
           <SourceForm action="create"/>
         </Card>
-      <Card small>
-          <UpdateSourceModal/>
-      </Card>
+
+        <Modal open={this.state.show} toggle={this.hideModal} className="modal-dialog-centered modal-lg">
+              <div className="modal-header">
+                <h5 className="modal-title" id="editSourceModal">Edit source</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.hideModal}>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <SourceForm name={this.state.name} rssUri={this.state.rssUri}
+                            baseUri={this.state.baseUri} country={this.state.country}
+                            sourceType={this.state.sourceType} sourceStatus={this.state.sourceStatus}
+                            sourceId = {this.state.sourceId}
+                            action="update"/>
+              </div>
+              <div className="modal-footer">
+              </div>
+        </Modal>
 
       <Row>
         <Col>
@@ -91,7 +138,7 @@ class Sources extends Component{
                       {
                         Header: '',
                         Cell: row => (
-                          <Button id="add" className={"form-control"} onClick={() => this.handleEdit(row)}>Edit</Button>
+                          <Button id="add"  className="form-control" data-toggle="modal" data-target="#exampleModal" onClick = {() =>this.showModal(row) }>Edit</Button>
                         )
                       }
                     ]

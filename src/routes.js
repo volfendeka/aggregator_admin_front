@@ -5,30 +5,32 @@ import { Redirect } from "react-router-dom";
 import { DefaultLayout } from "./layouts";
 
 // Route Views
-import BlogOverview from "./views/BlogOverview";
+import Overview from "./views/Overview";
 import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
-import BlogPosts from "./views/BlogPosts";
 import Feeds from "./views/Feeds";
 import Sources from "./views/Sources";
+import FeedsPreview from "./views/FeedsPreview";
+import Login from "./views/Login";
+import EmptyLayout from "./layouts/Empty";
 
 export default [
   {
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/blog-overview" />
+    component: () => <Redirect to="/overview" />
   },
   {
-    path: "/blog-overview",
+    path: "/overview",
     layout: DefaultLayout,
-    component: BlogOverview
+    component: Overview
   },
   {
-    path: "/user-profile-lite",
+    path: "/user-profile",
     layout: DefaultLayout,
     component: UserProfileLite
   },
@@ -63,8 +65,14 @@ export default [
     component: Sources
   },
   {
-    path: "/blog-posts",
+    path: "/feeds-preview",
     layout: DefaultLayout,
-    component: BlogPosts
-  }
+    component: FeedsPreview
+  },
+  {
+    path: "/login",
+    exact: false,
+    layout: EmptyLayout,
+    component: Login
+  },
 ];

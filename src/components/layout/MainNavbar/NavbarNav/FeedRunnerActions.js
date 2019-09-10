@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   Dropdown,
   DropdownToggle,
@@ -9,8 +8,22 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import {startFeedRunner, stopFeedRunner} from "../../../../actions/feed";
+import {connect} from "react-redux";
 
-export default class UserActions extends React.Component {
+const mapStateToProps = (state) => {
+  return{
+
+  }
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onStartFeedRunner: () => dispatch(startFeedRunner()),
+    onStopFeedRunner: () => dispatch(stopFeedRunner()),
+  }
+};
+
+class FeedRunnerActions extends React.Component {
   constructor(props) {
     super(props);
 
@@ -28,26 +41,28 @@ export default class UserActions extends React.Component {
   }
 
   render() {
+    const {onStartFeedRunner, onStopFeedRunner} = this.props;
+
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
           <img
             className="user-avatar rounded-circle mr-2"
-            src={require("./../../../../images/avatars/1.jpg")}
+            src={require("./../../../../images/feed_icon_gray.png")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-          <DropdownItem tag={Link} to="user-profile">
-            <i className="material-icons">&#xE7FD;</i> Profile
+          <DropdownItem onClick={onStartFeedRunner}>
+            <i className="material-icons text-success">&#x25b6;</i> Start runner
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/login" className="text-danger">
-            <i className="material-icons text-danger">&#xE879;</i> Logout
+          <DropdownItem onClick={onStopFeedRunner}>
+            <i className="material-icons text-danger">&#9600;</i> Stop runner
           </DropdownItem>
         </Collapse>
       </NavItem>
     );
   }
 }
+export default connect(mapStateToProps, mapDispatchToProps)(FeedRunnerActions);

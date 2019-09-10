@@ -9,11 +9,12 @@ class SelectOptions extends Component{
     let options = this.props.options || [];
     let id =    this.props.id || 0;
     let name =    this.props.name || '';
+    let value =    this.props.value || '';
     let onChange =    this.props.onChange || function(){};
     let select =
-    <FormSelect id={id} name={name} onChange={onChange}>
+    <FormSelect id={id} name={name} onChange={onChange} value={value}>
       <option>Choose</option>
-      {options.map(value => <option key={value.id} value={value.id}>{value.name}</option>)}
+      {options.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
     </FormSelect>
     return select
   }

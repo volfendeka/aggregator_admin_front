@@ -11,7 +11,7 @@ import {
 } from "shards-react";
 import SelectOptions from "../components/common/SelectOptions";
 import {connect} from "react-redux";
-import {requestCountries, requestSourceTypes, requestSourceStatuses, createSource, updateSource} from "../actions";
+import {requestCountries, requestSourceTypes, requestSourceStatuses, createSource, updateSource} from "../actions/source";
 
 const mapStateToProps = (state) => {
   return{
@@ -28,24 +28,25 @@ const mapDispatchToProps = (dispatch) => {
     onRequestSourceTypes: () => dispatch(requestSourceTypes()),
     onRequestSourceStatuses: () => dispatch(requestSourceStatuses()),
     createSource: (data) => dispatch(createSource(data)),
-    updateSource: (data) => dispatch(updateSource(data)),
+    updateSource: (data, sourceId) => dispatch(updateSource(data, sourceId)),
   }
 };
 
 class SourceForm extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       formControls:{
-        name: '',
-        rssUri: '',
-        baseUri: '',
-        country: {id: ''},
-        sourceType: {id: ''},
-        sourceStatus: {id: ''},
+        name: props.name || '',
+        rssUri: props.rssUri || '',
+        baseUri: props.baseUri || '',
+        country: {id: props.country || ''},
+        sourceType: {id: props.sourceType || ''},
+        sourceStatus: {id: props.sourceStatus || ''},
       }
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   componentWillMount() {
     this.props.onRequestSourceTypes();
@@ -54,19 +55,22 @@ class SourceForm extends Component{
 
   handleSubmit(event) {
     event.preventDefault();
+    const {action, sourceId} = this.props;
     let formControls = this.state.formControls;
+
     for(let name in formControls){
       if(formControls.name === ""){
         console.log(name + 'is empty');
         return;
       }
     }
-    switch (this.props.action) {
+
+    switch (action) {
       case 'create':
         this.props.createSource(formControls);
         break;
       case 'update':
-        this.props.updateSource(formControls);
+        this.props.updateSource(formControls, sourceId);
         break;
     }
   };
@@ -74,6 +78,8 @@ class SourceForm extends Component{
   handleInputChange = event => {
     const name = event.target.name;
     const value = event.target.value;
+
+    console.log(event.target.value)
 
     this.setState({
       formControls: {
@@ -99,6 +105,9 @@ class SourceForm extends Component{
 
   render(){
     const {countries, sourceTypes, sourceStatuses} = this.props;
+    let { action } = this.props;
+    action = action.charAt(0).toUpperCase() + action.substring(1);
+
     return (
     <ListGroup flush>
       <ListGroupItem className="p-3">
@@ -141,7 +150,7 @@ class SourceForm extends Component{
                     id={"country"}
                     options={countries}
                     name="country"
-                    value={this.state.formControls.country}
+                    value={this.state.formControls.country.id}
                     onChange={this.handleSelectChange}
                   />
                 </Col>
@@ -151,7 +160,7 @@ class SourceForm extends Component{
                     id={"sourceType"}
                     options={sourceTypes}
                     name="sourceType"
-                    value={this.state.formControls.sourceType}
+                    value={this.state.formControls.sourceType.id}
                     onChange={this.handleSelectChange}
                   />
                 </Col>
@@ -161,12 +170,12 @@ class SourceForm extends Component{
                     id={"sourceStatus"}
                     options={sourceStatuses}
                     name="sourceStatus"
-                    value={this.state.formControls.sourceStatus}
+                    value={this.state.formControls.sourceStatus.id}
                     onChange={this.handleSelectChange}
                   />
                 </Col>
               </Row>
-              <Button id="add" type="submit" className={"form-control btn-success"}>Add</Button>
+              <Button id="add" type="submit" className={"form-control btn-success"}>{action}</Button>
             </Form>
           </Col>
         </Row>

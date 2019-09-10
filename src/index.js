@@ -5,8 +5,9 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { searchRobots } from "./reducers/reducer";
-import { requestFeeds } from "./reducers/feed";
-import { requestSources, requestSourceTypes, requestSourceStatuses } from "./reducers/source";
+import { requestFeeds, startFeedRunner, stopFeedRunner } from "./reducers/feed";
+import { requestFeedsByDay, requestFeedsBySource, requestFeedsBySourceDay, requestGeneralCounters} from "./reducers/overview";
+import { requestSources, requestSourceTypes, requestSourceStatuses, createSource, updateSource, requestSourceStats } from "./reducers/source";
 import { requestCountries } from "./reducers/country";
 
 import App from './App';
@@ -20,7 +21,16 @@ const rootReducer = combineReducers({
   requestSources,
   requestCountries,
   requestSourceTypes,
-  requestSourceStatuses
+  requestSourceStatuses,
+  createSource,
+  updateSource,
+  requestSourceStats,
+  requestFeedsByDay,
+  requestFeedsBySource,
+  requestFeedsBySourceDay,
+  requestGeneralCounters,
+  startFeedRunner,
+  stopFeedRunner,
 });
 
 const logger = createLogger();

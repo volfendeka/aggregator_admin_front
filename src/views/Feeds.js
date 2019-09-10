@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import PageTitle from "../components/common/PageTitle";
-import {requestFeeds} from "../actions";
+import {requestFeeds} from "../actions/feed";
 import {connect} from "react-redux";
 
 
@@ -16,19 +16,19 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRequestFeeds: () => dispatch(requestFeeds())
+    onRequestFeeds: () => dispatch(requestFeeds(500))
   }
 };
 
 class Feeds extends Component{
 
-  componentDidMount() {
-
+  componentWillMount() {
+    this.props.onRequestFeeds();
   }
 
   render(){
     const { feeds } = this.props;
-    const title = "All feeds: " + feeds.length;
+    const title = "Last 500 feeds";
 
     return <Container fluid className="main-content-container px-4">
       {/* Page Header */}

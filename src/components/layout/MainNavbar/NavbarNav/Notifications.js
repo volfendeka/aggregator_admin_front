@@ -20,6 +20,7 @@ export default class Notifications extends React.Component {
 
   render() {
     return (
+
       <NavItem className="border-right dropdown notifications">
         <NavLink
           className="nav-link-icon text-center"

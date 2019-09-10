@@ -12,6 +12,7 @@ class SidebarMainNavbar extends React.Component {
   }
 
   handleToggleSidebar() {
+    console.log('sidebar');
     Dispatcher.dispatch({
       actionType: Constants.TOGGLE_SIDEBAR
     });
@@ -40,7 +41,7 @@ class SidebarMainNavbar extends React.Component {
               />
               {!hideLogoText && (
                 <span className="d-none d-md-inline ml-1">
-                  Shards Dashboard
+                  Aggregator Dashboard
                 </span>
               )}
             </div>
