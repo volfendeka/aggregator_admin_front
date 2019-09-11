@@ -11,10 +11,10 @@ export const login = (data) => (dispatch) => {
   fetch(baseUrl + 'login', {
     method: "POST",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
     },
-    body: JSON.stringify(data)
+    body: 'username='+data.username+'&password=' + data.password
+
   })
     .then(response=> response.json())
     .then(data => dispatch({type: LOGIN_SUCCESS, payload: data}))
