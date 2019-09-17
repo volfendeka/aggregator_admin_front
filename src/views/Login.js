@@ -10,8 +10,9 @@ import {
   InputGroup,
 } from "shards-react";
 import {
-  login
+  authenticate
 } from "../actions/user";
+import auth from "../service/auth";
 
 const mapStateToProps = (state) => {
   return{
@@ -20,7 +21,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (data) => dispatch(login(data)),
+    authenticate: (data) => dispatch(authenticate(data)),
   }
 };
 
@@ -49,8 +50,7 @@ class Login extends React.Component {
       }
     }
 
-    this.props.login(formControls);
-
+    this.props.authenticate(formControls);
   };
 
   handleInputChange = event => {
@@ -66,7 +66,11 @@ class Login extends React.Component {
   };
 
   render(){
-   return (
+    const {history} = this.props;
+    if(auth.isAuth()){
+      history.push("/overview");
+    }
+    return (
      <Container fluid className="main-content-container px-4 my-auto h-100">
        <div className="row no-gutters h-100">
          <div className="col-lg-3 col-md-5 auth-form mx-auto my-auto">
@@ -81,7 +85,7 @@ class Login extends React.Component {
                <Form onSubmit={this.handleSubmit} >
                  <FormGroup>
                    <InputGroup className="mb-3">
-                     <FormInput type="" name="username" placeholder="Enter email" aria-describedby="emailHelp" onChange={this.handleInputChange}/>
+                     <FormInput name="username" placeholder="Enter email" aria-describedby="emailHelp" onChange={this.handleInputChange}/>
                    </InputGroup>
                  </FormGroup>
                  <FormGroup>

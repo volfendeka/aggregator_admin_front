@@ -20,10 +20,13 @@ import {
 
 } from '../constants';
 import {baseUrl} from '../configs/config';
+import api from "../service/api";
 
 export const requestSources = () => (dispatch) => {
   dispatch({type: REQUEST_SOURCES_PENDING});
-  fetch(baseUrl + 'source')
+  fetch(baseUrl + 'source', {
+    headers: api.getAuthorizedJSONHeaders()
+  })
     .then(response=> response.json())
     .then(data => dispatch({type: REQUEST_SOURCES_SUCCESS, payload: data}))
     .catch(error => dispatch({type: REQUEST_SOURCES_FAILED, payload: error}));
@@ -33,10 +36,7 @@ export const createSource = (data) => (dispatch) => {
   dispatch({type: CREATE_SOURCE_PENDING});
   fetch(baseUrl + 'source', {
     method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers: api.getAuthorizedJSONHeaders(),
     body: JSON.stringify(data)
   })
     .then(response=> response.json())
@@ -50,10 +50,7 @@ export const updateSource = (data, id) => (dispatch) => {
   dispatch({type: UPDATE_SOURCE_PENDING});
   fetch(baseUrl + 'source/' + id, {
     method: "PUT",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers: api.getAuthorizedJSONHeaders(),
     body: JSON.stringify(data)
   })
     .then(response=> response.json())
@@ -63,7 +60,9 @@ export const updateSource = (data, id) => (dispatch) => {
 
 export const requestCountries = () => (dispatch) => {
   dispatch({type: REQUEST_COUNTRIES_PENDING});
-  fetch(baseUrl + 'country')
+  fetch(baseUrl + 'country', {
+    headers: api.getAuthorizedJSONHeaders(),
+  })
     .then(response=> response.json())
     .then(data => dispatch({type: REQUEST_COUNTRIES_SUCCESS, payload: data}))
     .catch(error => dispatch({type: REQUEST_COUNTRIES_FAILED, payload: error}));
@@ -71,7 +70,9 @@ export const requestCountries = () => (dispatch) => {
 
 export const requestSourceTypes = () => (dispatch) => {
   dispatch({type: REQUEST_SOURCE_TYPES_PENDING});
-  fetch(baseUrl + 'source/type')
+  fetch(baseUrl + 'source/type', {
+    headers: api.getAuthorizedJSONHeaders(),
+  })
     .then(response=> response.json())
     .then(data => dispatch({type: REQUEST_SOURCE_TYPES_SUCCESS, payload: data}))
     .catch(error => dispatch({type: REQUEST_SOURCE_TYPES_FAILED, payload: error}));
@@ -79,7 +80,9 @@ export const requestSourceTypes = () => (dispatch) => {
 
 export const requestSourceStatuses = () => (dispatch) => {
   dispatch({type: REQUEST_SOURCE_STATUSES_PENDING});
-  fetch(baseUrl + 'source/status')
+  fetch(baseUrl + 'source/status', {
+    headers: api.getAuthorizedJSONHeaders(),
+  })
     .then(response=> response.json())
     .then(data => dispatch({type: REQUEST_SOURCE_STATUSES_SUCCESS, payload: data}))
     .catch(error => dispatch({type: REQUEST_SOURCE_STATUSES_FAILED, payload: error}));

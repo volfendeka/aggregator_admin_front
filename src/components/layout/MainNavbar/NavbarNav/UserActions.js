@@ -9,8 +9,21 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import {logout} from "../../../../actions/user";
+import {connect} from "react-redux";
 
-export default class UserActions extends React.Component {
+const mapStateToProps = (state) => {
+  return{
+
+  }
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: (data) => dispatch(logout(data)),
+  }
+};
+
+class UserActions extends React.Component {
   constructor(props) {
     super(props);
 
@@ -28,6 +41,7 @@ export default class UserActions extends React.Component {
   }
 
   render() {
+    const {logout} = this.props;
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
@@ -43,7 +57,7 @@ export default class UserActions extends React.Component {
             <i className="material-icons">&#xE7FD;</i> Profile
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/login" className="text-danger">
+          <DropdownItem tag={Link} to="login" onClick={logout} className="text-danger">
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
@@ -51,3 +65,6 @@ export default class UserActions extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserActions);
+

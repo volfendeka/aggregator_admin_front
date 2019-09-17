@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import {Container, Row, Col, Card, CardHeader, CardBody} from "shards-react";
 import PageTitle from "./../components/common/PageTitle";

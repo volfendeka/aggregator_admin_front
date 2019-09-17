@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import routes from "./routes";
@@ -9,6 +9,7 @@ import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 import "./assets/pro_styles.css";
 import {requestSources, requestCountries} from './actions/source';
 import {requestFeeds, startFeedRunner, stopFeedRunner} from './actions/feed';
+import auth from "./service/auth";
 
 
 const mapStateToProps = (state) => {
@@ -31,13 +32,18 @@ const mapDispatchToProps = (dispatch) => {
 
 class App extends Component{
 
-  componentDidMount() {
-
+  checkAuthentication() {
+    if( !auth.isAuth() ){
+      return (
+        <Redirect to='/login'/>
+      )
+    }
   }
 
   render() {
     return <Router basename={process.env.REACT_APP_BASENAME || ""}>
       <div>
+        {this.checkAuthentication()}
         {routes.map((route, index) => {
           return (
             <Route
@@ -45,12 +51,12 @@ class App extends Component{
               path={route.path}
               exact={route.exact}
               render={(props => {
-                props = {...props, noNavbar: route.noNavbar, noSidebar: route.noSidebar, noFooter: route.noFooter }
+                props = {...props, noNavbar: route.noNavbar, noSidebar: route.noSidebar, noFooter: route.noFooter };
                 return (
                   <route.layout {...props}>
                     <route.component {...props} />
                   </route.layout>
-                );
+                )
               })}
             />
           );

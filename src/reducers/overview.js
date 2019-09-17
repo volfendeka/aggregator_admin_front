@@ -14,7 +14,6 @@ import {
   REQUEST_GENERAL_COUNTERS_FAILED,
 } from '../constants';
 
-
 const initialStateGeneralCounters = {
   isPending: false,
   generalCounters: [],
