@@ -1,33 +1,70 @@
 import React, {Component} from "react";
-import {Container, Row, Col, Card, CardBody, Badge} from "shards-react";
+import {Container, Row, Col, Card, CardBody, Badge, Button, Form} from "shards-react";
 import {logoBaseUrl} from "../configs/config";
 
 import PageTitle from "./../components/common/PageTitle";
 import {requestFeeds} from "../actions/feed";
 import {connect} from "react-redux";
+import SelectOptions from "../components/common/SelectOptions";
+import {requestCountries} from "../actions/source";
 
 const mapStateToProps = (state) => {
   return{
     feeds: state.requestFeeds.feeds,
+    countries: state.requestCountries.countries,
   }
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRequestFeeds: () => dispatch(requestFeeds(100)),
+    onRequestFeeds: (limit, country) => dispatch(requestFeeds(limit, country)),
+    onRequestCountries: () => dispatch(requestCountries())
   }
 };
 
 class FeedsPreview extends Component{
+
   constructor(props){
     super(props);
+    this.state = {
+      filterControls: {
+        limit: props.limit || 100,
+        country: {id: props.country || ''},
+        sourceType: {id: props.sourceType || ''},
+        sourceName: props.sourceName || '',
+      }
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.onRequestFeeds();
+  componentWillMount() {
+    this.props.onRequestFeeds(100);
+    this.props.onRequestCountries();
   }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    let filterControls = this.state.filterControls;
+    console.log(filterControls);
+    this.props.onRequestFeeds(100, filterControls.country.id);
+  };
+
+  handleSelectChange = event => {
+    const name = event.target.name;
+    const id = parseInt(event.target.value, 10);
+
+    this.setState({
+      filterControls: {
+        ...this.state.filterControls,
+        [name]: {
+          ...this.state.filterControls[name],
+          id
+        }
+      }
+    });
+  };
 
   render() {
-    const {feeds} = this.props;
+    const {feeds, countries, sourceType} = this.props;
 
     if(feeds.length){
       return(
@@ -36,7 +73,18 @@ class FeedsPreview extends Component{
           <Row noGutters className="page-header py-4">
             <PageTitle sm="4" title="Feeds " subtitle="Components" className="text-sm-left" />
           </Row>
-
+          <Row>
+            <Form onSubmit={this.handleSubmit}>
+              <SelectOptions
+                id={"country"}
+                options={countries}
+                name="country"
+                value={this.state.filterControls.country.id}
+                onChange={this.handleSelectChange}
+              />
+              <Button id="get" type="submit" className={"form-control btn-success"}>Get feeds</Button>
+            </Form>
+          </Row>
           {/* First Row of Posts */}
           <Row>
             {feeds.map((feed, idx) => (

@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRequestFeeds: () => dispatch(requestFeeds(500)),
+    onRequestFeeds: (limit, country) => dispatch(requestFeeds(limit, country)),
     onRequestSources: () => dispatch(requestSources()),
     onRequestCountries: () => dispatch(requestCountries()),
     onStartFeedRunner: () => dispatch(startFeedRunner()),

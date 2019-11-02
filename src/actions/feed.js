@@ -13,9 +13,13 @@ import {
 import {baseUrl} from '../configs/config';
 import api from "../service/api";
 
-export const requestFeeds = (limit) => (dispatch) => {
+export const requestFeeds = (limit, country) => (dispatch) => {
+  console.log(limit, country)
+  let country_id = (country > 0) ? '/' + country : '';
   dispatch({type: REQUEST_FEEDS_PENDING});
-  fetch(baseUrl + 'feed/' + limit, {
+  let url = baseUrl + 'feed/' + limit + country_id;
+  console.log(url);
+  fetch(url, {
     headers: api.getAuthorizedJSONHeaders()
   })
     .then(response=> response.json())

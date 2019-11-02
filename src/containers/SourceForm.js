@@ -106,7 +106,7 @@ class SourceForm extends Component{
   render(){
     const {countries, sourceTypes, sourceStatuses} = this.props;
     let { action } = this.props;
-    action = action.charAt(0).toUpperCase() + action.substring(1);
+    action = ''// action.charAt(0).toUpperCase() + action.substring(1);
 
     return (
     <ListGroup flush>
