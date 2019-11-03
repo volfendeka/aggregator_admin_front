@@ -12,6 +12,7 @@ import {
 } from '../constants';
 import {baseUrl} from '../configs/config';
 import api from "../service/api";
+import {checkErrorMessage} from "./utils";
 
 export const requestFeeds = (limit, country) => (dispatch) => {
   console.log(limit, country)
@@ -25,6 +26,7 @@ export const requestFeeds = (limit, country) => (dispatch) => {
     .then(response=> response.json())
     .then(data => {
       if(data.status && data.status !== 200){
+        checkErrorMessage(data.message);
         dispatch({type: REQUEST_FEEDS_FAILED, payload: data});
         return;
       }

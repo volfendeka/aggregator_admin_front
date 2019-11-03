@@ -18,6 +18,7 @@ import {
 } from '../constants';
 import {baseUrl} from '../configs/config';
 import api from "../service/api";
+import {checkErrorMessage} from "./utils";
 
 export const requestFeedsBySource = () => (dispatch) => {
   dispatch({type: REQUEST_FEEDS_BY_SOURCE_PENDING});
@@ -63,6 +64,7 @@ export const requestSourceStats = () => (dispatch) => {
     .then(response=> response.json())
     .then(data => {
       if(data.status && data.status !== 200){
+        checkErrorMessage(data.message);
         dispatch({type: REQUEST_SOURCE_STATS_FAILED, payload: data});
         return;
       }
