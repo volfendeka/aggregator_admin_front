@@ -15,11 +15,9 @@ import api from "../service/api";
 import {checkErrorMessage} from "./utils";
 
 export const requestFeeds = (limit, country) => (dispatch) => {
-  console.log(limit, country)
   let country_id = (country > 0) ? '/' + country : '';
   dispatch({type: REQUEST_FEEDS_PENDING});
   let url = baseUrl + 'feed/' + limit + country_id;
-  console.log(url);
   fetch(url, {
     headers: api.getAuthorizedJSONHeaders()
   })

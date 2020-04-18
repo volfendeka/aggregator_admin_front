@@ -6,8 +6,6 @@ import PageTitle from "../components/common/PageTitle";
 import {requestFeeds} from "../actions/feed";
 import {connect} from "react-redux";
 import {requestCountries} from "../actions/source";
-import SelectOptions from "../components/common/SelectOptions";
-
 
 const mapStateToProps = (state) => {
   return{
@@ -48,21 +46,6 @@ class Feeds extends Component{
     this.props.onRequestFeeds(500, filterControls.country);
   };
 
-  handleSelectChange = event => {
-    const name = event.target.name;
-    const id = parseInt(event.target.value, 10);
-
-    this.setState({
-      filterControls: {
-        ...this.state.filterControls,
-        [name]: {
-          ...this.state.filterControls[name],
-          id
-        }
-      }
-    });
-  };
-
   render(){
     const { feeds, countries } = this.props;
     const title = "Last 500 feeds";
@@ -71,21 +54,6 @@ class Feeds extends Component{
       {/* Page Header */}
       <Row noGutters className="page-header py-4">
         <PageTitle sm="4" title={title} subtitle="Feeds" className="text-sm-left" />
-        <Form onSubmit={this.handleSubmit}>
-          <Row form>
-            <Col md="2">
-              <label htmlFor="country">Country</label>
-              <SelectOptions
-                id={"country"}
-                options={countries}
-                name="country"
-                value={this.state.filterControls.country.id}
-                onChange={this.handleSelectChange}
-              />
-            </Col>
-          </Row>
-          <Button id="add" type="submit" className={"form-control btn-success"}>Get feeds</Button>
-        </Form>
       </Row>
 
       <Row>

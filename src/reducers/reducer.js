@@ -17,12 +17,12 @@ export const searchRobots = (state=initialStateSearch, action={}) => {
     }
 };
 
-const initialStateAuthorization = {
+const initialAuthorization = {
   isPending: false,
   token: [],
   error: [],
 };
-export const authorization = (state=initialStateAuthorization, action={}) => {
+export const authorization = (state=initialAuthorization, action={}) => {
   switch(action.type){
     case LOGIN_PENDING:
       return Object.assign({}, state, {isPending: true});

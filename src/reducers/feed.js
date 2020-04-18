@@ -20,7 +20,17 @@ export const requestFeeds = (state=initialStateFeeds, action={}) => {
     case REQUEST_FEEDS_PENDING:
       return Object.assign({}, state, { isPending: true });
     case REQUEST_FEEDS_SUCCESS:
-      return Object.assign({}, state, { feeds: action.payload, isPending: false });
+      let feeds = action.payload.map((feed) => {
+        let logoPath = "../images/logo/'" + feed.source.name + "'.png'";
+        try{
+          require(logoPath);
+        }catch(err){
+          logoPath = "../images/logo/undefined.png'";
+        }
+        feed.logoPath = logoPath;
+        return feed;
+      });
+      return Object.assign({}, state, { feeds: feeds, isPending: false });
     case REQUEST_FEEDS_FAILED:
       return Object.assign({}, state, { error: action.payload, isPending: false });
     default:

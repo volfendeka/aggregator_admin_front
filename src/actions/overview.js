@@ -39,6 +39,7 @@ export const requestFeedsBySourceDay = () => (dispatch) => {
     .then(data => {
       if(data.status && data.status !== 200){
         dispatch({type: REQUEST_FEEDS_BY_SOURCE_DAY_FAILED, payload: data});
+        checkErrorMessage(data.message);
         return;
       }
       dispatch({type: REQUEST_FEEDS_BY_SOURCE_DAY_SUCCESS, payload: data});
@@ -64,8 +65,8 @@ export const requestSourceStats = () => (dispatch) => {
     .then(response=> response.json())
     .then(data => {
       if(data.status && data.status !== 200){
-        checkErrorMessage(data.message);
         dispatch({type: REQUEST_SOURCE_STATS_FAILED, payload: data});
+        checkErrorMessage(data.message);
         return;
       }
       dispatch({type: REQUEST_SOURCE_STATS_SUCCESS, payload: data});

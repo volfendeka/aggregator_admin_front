@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import { searchRobots } from "./reducers/reducer";
+import { searchRobots, authorization } from "./reducers/reducer";
 import { requestFeeds, startFeedRunner, stopFeedRunner } from "./reducers/feed";
 import { requestFeedsByDay, requestFeedsBySource, requestFeedsBySourceDay, requestGeneralCounters} from "./reducers/overview";
 import { requestSources, requestSourceTypes, requestSourceStatuses, createSource, updateSource, requestSourceStats } from "./reducers/source";
@@ -16,6 +16,7 @@ import * as serviceWorker from './serviceWorker';
 
 
 const rootReducer = combineReducers({
+  authorization,
   searchRobots,
   requestFeeds,
   requestSources,
