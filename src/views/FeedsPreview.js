@@ -104,7 +104,7 @@ class FeedsPreview extends Component{
                       <a
                         href="#"
                         className="card-post__author-avatar card-post__author-avatar--small"
-                        style={{ backgroundImage: `url('${require('../images/logo/' + feed.logoPath+ '.png')}')` }}
+                        style={{ backgroundImage: `url('${require(feed.logoPath)}')` }}
                       >
                         Written by {feed.author}
                       </a>
