@@ -21,13 +21,13 @@ export const requestFeeds = (state=initialStateFeeds, action={}) => {
       return Object.assign({}, state, { isPending: true });
     case REQUEST_FEEDS_SUCCESS:
       let feeds = action.payload.map((feed) => {
-        let logoPath = "../images/logo/" + feed.source.name + ".png";
+        let logo = feed.source.name + ".png";
         try{
-          require(logoPath);
+          require("../images/logo/" + logo);
         }catch(err){
-          logoPath = "../images/logo/undefined.png";
+          logo = "default.png";
         }
-        feed.logoPath = logoPath;
+        feed.logo = logo;
         return feed;
       });
       return Object.assign({}, state, { feeds: feeds, isPending: false });
